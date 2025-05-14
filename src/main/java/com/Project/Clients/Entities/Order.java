@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "tb_client")
+@Table(name = "tb_order")
 public class Order {
 
     @Id
@@ -22,10 +22,10 @@ public class Order {
 
     private Double valor;
 
-    private LocalDateTime instante;
+    private String nomeProduto;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "clientId")
     private Client client;
 
 }

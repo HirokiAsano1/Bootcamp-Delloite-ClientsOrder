@@ -16,7 +16,7 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity<List<ClientDTO>> listarClientes()
     {
         List<ClientDTO> clientes= clientService.findAll();
