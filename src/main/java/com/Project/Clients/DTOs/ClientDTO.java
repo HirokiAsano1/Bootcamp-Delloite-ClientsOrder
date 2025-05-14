@@ -14,7 +14,7 @@ public class ClientDTO {
     public ClientDTO (Client client)
     {
         this.name = client.getName();
-        this.email = getEmail();
+        this.email = client.getEmail();
     }
 
     public Client convertToEntity(Client client ,ClientDTO clientDTO)

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/clientes")
+@RequestMapping("/clients")
 public class ClientController {
 
     @Autowired
@@ -37,7 +37,7 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(clientDTO);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public ResponseEntity<ClientDTO> editarCliente(@RequestBody ClientDTO clientDTO,@PathVariable Long id)
     {
         clientDTO = clientService.update(clientDTO,id);
