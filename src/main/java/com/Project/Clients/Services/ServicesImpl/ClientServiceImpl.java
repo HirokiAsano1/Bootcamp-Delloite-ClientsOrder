@@ -1,8 +1,11 @@
-package com.Project.Clients.ServicesImpl;
+package com.Project.Clients.Services.ServicesImpl;
 
 import com.Project.Clients.DTOs.ClientDTO;
+import com.Project.Clients.DTOs.PedidoDTO;
 import com.Project.Clients.Entities.Client;
+import com.Project.Clients.Entities.Pedido;
 import com.Project.Clients.Repositories.ClientRepository;
+import com.Project.Clients.Repositories.PedidoRepository;
 import com.Project.Clients.Services.ClientService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientServiceImpl implements ClientService {
@@ -17,6 +22,8 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
+    @Autowired
+    private PedidoRepository pedidoRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -54,5 +61,23 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public void delete(Long id) {
         clientRepository.deleteById(id);
+    }
+
+    @Override
+    public PedidoDTO createPedido(PedidoDTO pedidoDTO, Long clientId) {
+        Client cliente = clientRepository.findById(clientId).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+        Pedido pedido = new Pedido();
+        pedido.setDataPedido(pedidoDTO.getDataPedido());
+        pedido.setClient(cliente);
+        pedido = pedidoRepository.save(pedido);
+        return  new PedidoDTO(pedido);
+    }
+
+    @Override
+    public List<PedidoDTO> FindPedidos(Long clientId) {
+        List<Pedido> pedidos = pedidoRepository.findByClientId(clientId);
+        return pedidos.stream()
+                .map(PedidoDTO::new)
+                .collect(Collectors.toList());
     }
 }

@@ -7,25 +7,28 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Table(name = "tb_order")
-public class Order {
+public class Pedido {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double valor;
+    private LocalDateTime dataPedido;
 
-    private String nomeProduto;
+    private Double valorTotal;
 
     @ManyToOne
-    @JoinColumn(name = "clientId")
+    @JoinColumn(name = "client_id")
     private Client client;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<ProdutoPedido> produtoPedidos;
 
 }

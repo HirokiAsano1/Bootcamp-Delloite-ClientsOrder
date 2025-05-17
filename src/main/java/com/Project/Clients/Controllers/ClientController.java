@@ -1,6 +1,8 @@
 package com.Project.Clients.Controllers;
 
 import com.Project.Clients.DTOs.ClientDTO;
+import com.Project.Clients.DTOs.PedidoDTO;
+import com.Project.Clients.Entities.Pedido;
 import com.Project.Clients.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,5 +52,20 @@ public class ClientController {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{clientId}")
+    public ResponseEntity<PedidoDTO> criarPedido(@PathVariable Long clientId, @RequestBody PedidoDTO pedidoDTO)
+    {
+        PedidoDTO pedido = clientService.createPedido(pedidoDTO,clientId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedido);
+    }
+
+    @GetMapping("/pedidos/{clientId}")
+    public ResponseEntity<List<PedidoDTO>> listarPedidos(@PathVariable Long clientId)
+    {
+        List<PedidoDTO> pedidos = clientService.FindPedidos(clientId);
+        return ResponseEntity.ok(pedidos);
+    }
+
 
 }
